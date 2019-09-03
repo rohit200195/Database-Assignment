@@ -1,0 +1,221 @@
+CREATE table Salespeople
+(
+SNUM int primary key not null,
+SName varchar(20),
+City varchar(20),
+Comm decimal(2,2)
+);
+
+
+insert into  salespeople values(1001,'Peel','Lodon',.12);
+insert into  salespeople values(1002,'Serres','San jose',.13);
+insert into  salespeople values(1004,'Motika','Lodon',.11);
+insert into  salespeople values(1007,'Rifkin','Barcelona',.15);
+insert into  salespeople values(1003,'Axelrod','New york',.10);
+insert into  salespeople values(1005,'Fran','Lodoon',.26);
+
+
+CREATE table Customers
+(
+Cnum int primary key not null,
+Cname varchar(20),
+City varchar(20),
+rating char(3),
+Snum int REFERENCES salespeople(SNUM)
+);
+
+
+insert into Customers values(2001,'Hoffman','london',100,1001);
+insert into Customers values(2002,'Giovanni','Rome',200,1003);
+insert into Customers values(2003,'Liu','San jose',200,1002);
+insert into Customers values(2004,'Grass','Berlin',300,1002);
+insert into Customers values(2006,'Clemens','london',100,1001);
+insert into Customers values(2008,'Cisneros','San jose',300,1007);
+insert into Customers values(2007,'Pereira','Rome',100,1004);
+
+
+
+
+CREATE Table Orders
+(
+Onum int primary key not null, 
+Amt decimal(8,2),
+Odate date,
+Cnum int REFERENCES customers(Cnum), 
+Snum int REFERENCES salespeople(Snum)
+);
+
+INSERT into Orders Values (3001, 18.69, 19960310, 2008, 1007);
+INSERT into Orders Values (3003, 767.19, 19960310, 2001, 1001);
+INSERT into Orders Values (3002, 1900.10, 19960310, 2007, 1004);
+INSERT into Orders Values (3005, 5160.45, 19960310, 2003, 1002);
+INSERT into Orders Values (3006, 1098.16, 19960310, 2008, 1007);
+INSERT into Orders Values (3009, 1713.23, 19960410, 2002, 1003);
+INSERT into Orders Values (3007, 75.75, 19960410, 2002, 1003);
+INSERT into Orders Values (3008, 4723.00, 19960510, 2006, 1001);
+INSERT into Orders Values (3010, 1309.95, 19960610, 2004, 1002);
+INSERT into Orders Values (3011, 9891.88, 19960610, 2006, 1001);
+
+
+1.	Desc salespeople;
+2. 
+	SELECT Cname,Rating FROM Customers
+	where rating=100;
+3.
+Select * from customers 
+where city is null;
+
+4. 
+Select Sname,Odate, Max(Amt)
+from SalesPeople S inner join Orders O
+on S.Snum=O.Snum
+Group By Sname,ODate;
+
+
+
+5.
+Select * from orders
+order by Cnum desc;
+
+6.
+SELECT Sname, Onum
+From salespeople s INNER JOIN orders o
+ON s.Snum=o.Snum;
+
+7.
+SELECT Cname, Sname
+From salespeople s INNER JOIN customers c
+On s.Snum=c.Snum;
+
+8 
+  Select Sname ,count(c.snum)
+  from salespeople s INNER JOIN customers c
+  on S.snum = C.snum
+  Group By Sname 
+  having count(sname) > 1;
+
+9.select S.Sname,S.Snum,count(o.onum) as counts from Orders O, Salespeople S 
+    Where S.Snum=O.Snum
+     group by O.Snum
+     Order By Counts DESC
+     ;	
+
+
+10.SELECT * from customers 
+    where (Select Count(*) from customers where City = 'San Jose')>1; 
+
+11.  
+  SELECT S.Sname,C.Cname from Salespeople S, Customers C
+  Where S.City =C.city;
+  ;
+
+
+13.SELECT CName from customers 
+    where City = 'San Jose'
+     AND Rating >200;
+
+14.
+Select Sname,Comm from Salespeople
+Where City = "london";
+
+15.
+Select * from Orders 
+where Snum = 1004;
+
+16.
+     Select C.Cname from Customers C, Orders O
+     Where C.Cnum=O.Cnum AND Odate = '19960310';
+
+17. Select * from orders
+     Where 
+(Select SUM(AMT) from Orders
+     Group by Odate) > 2000;
+
+18.
+Select Onum from Orders
+Where AMT >ANY ( Select AMT from Orders where Odate = 19960610);
+
+19.
+
+
+20.
+Select Cname,rating from Customers
+Order By Rating
+Group By rating;
+
+21.
+select cname from customers
+where cnum - (Select snum from salespeople where sname = 'serres') > 1000;
+
+22.
+select sname, comm, comm*100 as PerComm from salespeople;
+
+23.
+select max(O.amt),O.Odate,s.sname from Salespeople S inner join Orders O on S.Snum=O.Snum
+group by O.ODate,sname
+having (max(O.Amt)>3000);
+;
+
+
+
+24.
+Select Odate,Snum,Max(AMT) from Orders
+where Odate = 19960310
+Group by Snum;
+
+25.
+select Cname from Customers
+where Snum = 1002;
+
+26.
+select Cname,rating from Customers 
+where rating >200;
+
+27.
+Select Count(Distinct S.Snum) from Salespeople S inner join Orders O on S.Snum=O.Snum
+;
+
+28.
+select C.Cname,S.Comm*100 as Commission from Salespeople S left outer join Customers C
+on S.snum=C.snum
+where S.Comm>0.12;
+
+
+29.
+select s.sname from Salespeople S inner join customers c
+on s.snum=c.snum
+where count(c.cnum)>1;
+
+30.
+select s.sname,c.cname from 
+Salespeople S inner join Customers C
+on S.snum = c.snum
+where s.city=c.city 
+;
+
+select sname from salespeople
+where (Select city from salespeople S union select city from customers C having S.city=c.city);
+
+31.
+Select Sname from Salespeople
+where Sname like 'P__L%';
+
+32.
+select Onum from Orders
+where Cnum IN ( Select C.Cnum from Customers C inner join Orders O 
+on C.Cnum=O.Cnum where Cname like 'cisneros');
+
+33.
+Select Max(AMT) from Orders
+where Cnum IN ( Select O.Cnum from Customers C Inner Join Orders O
+on C.Cnum=O.Cnum 
+where Cname like'Serres' or Cname like 'rifkin'); 
+
+
+select amt from orders 
+where if null(amt,0) >k [o;]
+
+
+
+
+
