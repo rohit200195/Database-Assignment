@@ -1,0 +1,198 @@
+package Devpack;
+abstract class Game {
+	abstract void play();
+	
+}
+
+class Football extends Game{
+	void play()
+	{
+		System.out.println("play football");
+	}
+}
+class Cricket extends Game{
+	void play()
+	{
+		System.out.println("play Cricket");
+	}
+}
+class Tennis extends Game{
+	void play()
+	{
+		System.out.println("play Tennis");
+	}
+}
+
+public class Demo{
+	public static void main(String[] args)
+	{
+		Game arr[] = new Game[3];
+		arr[0] = new Football();
+		arr[1] = new Cricket();
+		arr[2] = new Tennis();
+		
+		{
+		
+			arr[1].play();
+		}
+		
+	}
+}
+
+-------------------------------------------------------------------------------------
+
+package Devpack;
+class MyArithException extends Exception
+{
+	MyArithException(String Mssg) {
+		super(Mssg);
+	}
+	
+}
+
+class Calculator{
+	int k;
+	void caldouble(int k) throws MyArithException 
+	{
+		if(k==0)
+		{
+			throw new MyArithException  ("Zero not Allowed"); 
+		}
+		else if (k<0)
+		{
+			throw new MyArithException  ("Nagative not Allowed"); 
+		}	
+		else 
+		{
+			System.out.println(k*2);
+		}
+	}
+	  
+	
+}
+
+public class MyCalcApp{
+	public static void main (String[] args)
+	{
+		Calculator c= new Calculator();
+		try {
+			c.caldouble(0);
+		} catch (MyArithException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------------
+
+package course;
+
+ class Dac {
+void term1()
+{
+	System.out.println("Term1");
+}
+
+void term2()
+{
+ System.out.println("Term2");	
+}
+
+}
+
+
+
+class PreDac {
+
+	public void cet() {
+				// TODO Auto-generated method stub
+		System.out.println("CET marks");
+	}
+
+}
+
+	class Basic{
+		
+		void finalTest()
+		{
+			System.out.println("Basics");
+		}
+	}
+
+
+public class VitaApp {
+
+		public static void main(String[] args) {
+			// TODO Auto-generated method stub
+	      Dac d=new Dac();
+	      PreDac p=new PreDac();
+	      Basic b=new Basic();
+	      
+	      d.term1();
+	      d.term2();
+	      p.cet();
+	      b.finalTest();
+		}
+
+	}
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+public class Item {
+	
+	
+	String itemid;
+	String name;
+	int cost;
+	
+	public Item(int cost,String name,String itemid) {
+		super();
+		this.cost = cost;
+		this.name = name;
+		this.itemid = itemid;
+	}
+
+	/*public Item(String name) {
+		super();
+		this.name = name;
+	}
+
+	
+	
+	public Item(String itemid) {
+		super();
+		this.itemid = itemid;
+	}*/
+	
+	void disp()
+		{
+		System.out.println("ProductId = "   +itemid+ "Productname = "   +name+  "Cost = "     +cost  );
+	    }   	
+	
+	
+	
+}
+	
+
+
+public class Abf {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Item i = new Item(1,"gg", "akakak");
+		i.disp();
+	}
+
+}
+
+
+
+
+
+
+
+
