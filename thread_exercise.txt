@@ -1,0 +1,31 @@
+package My;
+public class Abc extends Thread{
+	synchronized static void disp() {
+		for (char ch = 'a'; ch<= 'j'; ch++)
+		{
+			System.out.println(ch);
+		}
+		try {
+			
+			Thread.sleep(200);
+		}
+		catch(InterruptedException ie)
+		{
+		}
+	}
+public void run() {
+	disp();
+}
+public static void main(String[] args)
+{
+	Abc a = new Abc();
+	Abc a1 = new Abc();
+	Thread t1 = new Thread(a);
+	Thread t2 = new Thread(a1);
+	t1.start();
+	t2.start();
+	
+}
+}
+
+
